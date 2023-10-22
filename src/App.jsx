@@ -1,8 +1,9 @@
+import AddWorker from "./components/Workers/AddWorker";
 
 function App() {
   return (
     <div className="App">
-      <span className="text-7xl"> Hello</span>
+      <AddWorker />
     </div>
   );
 }
