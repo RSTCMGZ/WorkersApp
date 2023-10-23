@@ -1,26 +1,28 @@
 import Button from "./Button";
 import Card from "./Card";
 
-function ErrorModal() {
+const ErrorModal = (props) => {
+  const { onConfirm, error } = props;
+  const { title, message } = error;
   return (
     <div className="error-modal">
       <div
         className="backdrop-blur-sm bg-white/30 fixed w-screen h-screen top-0"
-        onClick=""
+        onClick={onConfirm}
       ></div>
       <Card className="w-[36rem]   p-0 z-20">
         <header className="bg-red-700 p-4 rounded-t-xl">
-          <h2 className="text-center text-xl text-white ">
-            İsim Alanı Zorunludur!
-          </h2>
+          <h2 className="text-center text-xl text-white ">{title}</h2>
         </header>
-        <section className="p-4">Lütfen bir isim giriniz.</section>
+        <section className="p-4 text-center">{message}</section>
         <footer className="p-4 flex justify-end">
-          <Button>Tamam</Button>
+          <Button className="w-full" onClick={onConfirm}>
+            Tamam
+          </Button>
         </footer>
       </Card>
     </div>
   );
-}
+};
 
 export default ErrorModal;
