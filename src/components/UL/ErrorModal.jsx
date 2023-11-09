@@ -1,6 +1,6 @@
 import Button from "./Button";
 import Card from "./Card";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 const Backdrop = (props) => {
@@ -11,16 +11,17 @@ const Backdrop = (props) => {
     ></div>
   );
 };
+
 const ModalOverlay = (props) => {
   return (
     <div className="error-modal">
-      <Card className="w-[36rem]   !p-0 z-20">
-        <header className="bg-red-700 p-4 rounded-t-xl">
-          <h2 className="text-center text-xl text-white ">{props.title}</h2>
+      <Card className="w-[36rem] !p-0 z-20">
+        <header className="bg-red-700 p-4  rounded-t-xl">
+          <h2 className="text-center text-xl text-white">{props.title}</h2>
         </header>
-        <section className="p-4 text-center">{props.message}</section>
+        <section className="p-4">{props.message}</section>
         <footer className="p-4 flex justify-end">
-          <Button className="w-full" onClick={props.onConfirm}>
+          <Button className="w-32" onClick={props.onConfirm}>
             Tamam
           </Button>
         </footer>
@@ -32,6 +33,25 @@ const ModalOverlay = (props) => {
 const ErrorModal = (props) => {
   const { onConfirm, error } = props;
   const { title, message } = error;
+  const cleanupRef = useRef();
+
+  useEffect(() => {
+    console.log("Modal oluşturuldu!");
+
+    return () => {
+      if (cleanupRef.current) {
+        console.log("Component kaldırıldı!");
+        props.setWorkers([]);
+      }
+    };
+  }, [cleanupRef, props]);
+
+  useEffect(() => {
+    return () => {
+      cleanupRef.current = true;
+    };
+  }, []);
+
   return (
     <React.Fragment>
       {ReactDOM.createPortal(

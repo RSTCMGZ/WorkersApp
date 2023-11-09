@@ -1,15 +1,17 @@
-import { useState, Fragment, useRef, useEffect } from "react";
+import { useState, Fragment, useRef } from "react";
 import Button from "../UL/Button";
 import Card from "../UL/Card";
 import ErrorModal from "../UL/ErrorModal";
-// import Wrapper from "../Helpers/Wrapper";
-function AddWorker(props) {
+
+const AddWorker = (props) => {
   const [error, setError] = useState();
   const nameInputRef = useRef();
   const wageInputRef = useRef();
-  // useEffect(() => {
-  //   console.log("çalıştı!");
-  // }, []);
+  /* 
+  useEffect(() => {
+    console.log("çalıştı!");
+  }); */
+
   const minimumWage = 5000;
 
   const addWorkerHandler = (e) => {
@@ -19,10 +21,11 @@ function AddWorker(props) {
     if (nameInputRef.current.value.trim().length === 0) {
       setError({
         title: "İsim Alanı Zorunludur!",
-        message: "Lütfen Bir İsim Giriniz.",
+        message: "Lütfen bir isim giriniz.",
       });
       return;
     }
+
     if (+wageInputRef.current.value < minimumWage) {
       setError({
         title: "Maaş Alanı Zorunludur!",
@@ -30,7 +33,6 @@ function AddWorker(props) {
       });
       return;
     }
-
     props.setWorkers((prevState) => [
       {
         id: Math.floor(Math.random() * 1000),
@@ -42,13 +44,20 @@ function AddWorker(props) {
     nameInputRef.current.value = "";
     wageInputRef.current.value = "";
   };
+
   const errorHandler = () => {
     setError(null);
   };
   return (
     <Fragment>
-      {error && <ErrorModal onConfirm={errorHandler} error={error} />}
-      <Card className={"mt-10"}>
+      {error && (
+        <ErrorModal
+          setWorkers={props.setWorkers}
+          onConfirm={errorHandler}
+          error={error}
+        />
+      )}
+      <Card className="mt-10">
         <form className="flex flex-col gap-y-2" onSubmit={addWorkerHandler}>
           <label htmlFor="name" className="font-medium">
             Çalışan İsmi
@@ -56,7 +65,7 @@ function AddWorker(props) {
           <input
             type="text"
             className="max-w-[40rem] w-full mx-auto border p-2"
-            placeholder="Çalışan İsmi Yazınız."
+            placeholder="Çalışan ismi yazınız"
             id="name"
             ref={nameInputRef}
           />
@@ -66,7 +75,7 @@ function AddWorker(props) {
           <input
             type="number"
             className="max-w-[40rem] w-full mx-auto border p-2"
-            placeholder="Maaş  Miktarı Giriniz."
+            placeholder="Maaş miktarı yazınız"
             id="wage"
             ref={wageInputRef}
           />
@@ -76,39 +85,39 @@ function AddWorker(props) {
         </form>
       </Card>
     </Fragment>
-    // <Wrapper>
-    //   {error && <ErrorModal onConfirm={errorHandler} error={error} />}
-    //   <Card className={"mt-10"}>
-    //     <form className="flex flex-col gap-y-2" onSubmit={addWorkerHandler}>
-    //       <label htmlFor="name" className="font-medium">
-    //         Çalışan İsmi
-    //       </label>
-    //       <input
-    //         type="text"
-    //         className="max-w-[40rem] w-full mx-auto border p-2"
-    //         placeholder="Çalışan İsmi Yazınız."
-    //         id="name"
-    //         value={enteredWorkerName}
-    //         onChange={(e) => setEnteredWorkerName(e.target.value)}
-    //       />
-    //       <label htmlFor="wage" className="font-medium">
-    //         Maaş Miktarı
-    //       </label>
-    //       <input
-    //         type="number"
-    //         className="max-w-[40rem] w-full mx-auto border p-2"
-    //         placeholder="Maaş  Miktarı Giriniz."
-    //         id="wage"
-    //         value={enteredWage}
-    //         onChange={(e) => setEnteredWage(e.target.value)}
-    //       />
-    //       <Button className="mt-2" type="submit">
-    //         Ekle
-    //       </Button>
-    //     </form>
-    //   </Card>
-    // </Wrapper>
+    /*     <>
+      {error && <ErrorModal onConfirm={errorHandler} error={error} />}
+      <Card className="mt-10">
+        <form className="flex flex-col gap-y-2" onSubmit={addWorkerHandler}>
+          <label htmlFor="name" className="font-medium">
+            Çalışan İsmi
+          </label>
+          <input
+            type="text"
+            className="max-w-[40rem] w-full mx-auto border p-2"
+            placeholder="Çalışan ismi yazınız"
+            id="name"
+            onChange={(e) => setEnteredWorkerName(e.target.value)}
+            value={enteredWorkerName}
+          />
+          <label htmlFor="wage" className="font-medium">
+            Maaş Miktarı
+          </label>
+          <input
+            type="number"
+            className="max-w-[40rem] w-full mx-auto border p-2"
+            placeholder="Maaş miktarı yazınız"
+            id="wage"
+            onChange={(e) => setEnteredWage(e.target.value)}
+            value={enteredWage}
+          />
+          <Button className="mt-2" type="submit">
+            Ekle
+          </Button>
+        </form>
+      </Card>
+    </> */
   );
-}
+};
 
 export default AddWorker;
